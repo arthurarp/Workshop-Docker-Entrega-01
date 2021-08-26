@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  users-service_db:
+    container_name: user_service
+    image: mysql:5.7.20
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db
+    ports:
+       - 7201:3306
