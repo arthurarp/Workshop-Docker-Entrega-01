@@ -1,11 +1,28 @@
 version: '3.8'
 
 services:
+  users-service:
+    container_name: api_user_service
+    build: 
+      context: ./users-service/
+      dockerfile: Dockerfile.users
+    ports:
+      - 7101:7101
+    networks:
+      - user_service_network
+    depends_on: 
+      - users-service_db
+
   users-service_db:
-    container_name: user_service
+    container_name: db_user_service
     image: mysql:5.7.20
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: db
     ports:
        - 7201:3306
+    networks:
+      - user_service_network
+
+networks:
+  user_service_network:
