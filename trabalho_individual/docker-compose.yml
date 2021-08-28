@@ -4,6 +4,7 @@ version: '3.8'
 services:
   users-service:
     container_name: api_user_service
+    restart: on-failure
     build: 
       context: ./users-service/
       dockerfile: Dockerfile.users
@@ -13,8 +14,8 @@ services:
       - user_service_network
     depends_on: 
       - users-service-db
-    restart: on-failure
-
+    volumes:
+      - ./users-service/:/code
 
   users-service-db:
     container_name: db_user_service
@@ -26,6 +27,41 @@ services:
        - 7201:3306
     networks:
       - user_service_network
+    volumes:
+      - db_user_service:/var/lib/mysql
+
+  chat-service:
+    container_name: api_chat_service
+    restart: on-failure
+    build: 
+      context: ./chat-service/
+      dockerfile: Dockerfile.chat
+    ports:
+      - 7100:7100
+    networks:
+      - chat_service_network
+    depends_on: 
+      - users-service-db
+    volumes:
+      - ./chat-service/:/code
+
+  chat-service-db:
+    container_name: db_chat_service
+    image: mysql:5.7.20
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db
+    ports:
+       - 7200:3306
+    networks:
+      - chat_service_network
+    volumes:
+      - db_chat_service:/var/lib/mysql
+
+volumes:
+  db_user_service:
+  db_chat_service:
 
 networks:
   user_service_network:
+  chat_service_network:
