@@ -84,6 +84,18 @@ services:
       - users-service-db
       - chat-service-db
 
+  chat-app:
+    container_name: front_chat_app
+    build: 
+      context: ./chat-app/
+      dockerfile: Dockerfile.chatapp
+    ports:
+      - 7001:7001
+    depends_on:
+      - api-gateway
+    volumes:
+      - ./chat-app/:/code
+  
 volumes:
   db_user_service:
   db_chat_service:
