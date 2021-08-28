@@ -73,6 +73,17 @@ services:
       - user_service_network
       - chat_service_network
 
+  phpmyadmin:
+    container_name: php_my_admin
+    image: phpmyadmin
+    ports:
+      - 7300:80
+    volumes:
+      - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+    depends_on:
+      - users-service-db
+      - chat-service-db
+
 volumes:
   db_user_service:
   db_chat_service:
