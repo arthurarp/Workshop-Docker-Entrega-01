@@ -57,6 +57,22 @@ services:
     volumes:
       - db_chat_service:/var/lib/mysql
 
+  api-gateway:
+    container_name: api_gateway
+    build: 
+      context: ./api-gateway/
+      dockerfile: Dockerfile.gateway
+    ports:
+      - 7000:7000
+    depends_on:
+      - users-service
+      - chat-service
+    volumes:
+      - ./api-gateway/:/code
+    networks:
+      - user_service_network
+      - chat_service_network
+
 volumes:
   db_user_service:
   db_chat_service:
