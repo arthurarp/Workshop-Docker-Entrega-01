@@ -1,3 +1,4 @@
+
 version: '3.8'
 
 services:
@@ -11,9 +12,11 @@ services:
     networks:
       - user_service_network
     depends_on: 
-      - users-service_db
+      - users-service-db
+    restart: on-failure
 
-  users-service_db:
+
+  users-service-db:
     container_name: db_user_service
     image: mysql:5.7.20
     environment:
