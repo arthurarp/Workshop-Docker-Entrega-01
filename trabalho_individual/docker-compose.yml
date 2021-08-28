@@ -83,7 +83,9 @@ services:
     depends_on:
       - users-service-db
       - chat-service-db
-
+    networks:
+      - user_service_network
+      - chat_service_network
   chat-app:
     container_name: front_chat_app
     build: 
