@@ -32,7 +32,6 @@ services:
 
   chat-service:
     container_name: api_chat_service
-    restart: on-failure
     build: 
       context: ./chat-service/
       dockerfile: Dockerfile.chat
@@ -41,7 +40,7 @@ services:
     networks:
       - chat_service_network
     depends_on: 
-      - users-service-db
+      - chat-service-db
     volumes:
       - ./chat-service/:/code
 
